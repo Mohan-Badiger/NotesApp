@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // ✅ Base URL (for frontend or future use)
-const BASE_URL = process.env.BASE_URL || "https://notesapp-frontend1-rp78.onrender.com/api";
+const BASE_URL = process.env.BASE_URL || "https://notesapp-frontend1-rp78.onrender.com";
 
 export const register = async (req, res) => {
   try {
