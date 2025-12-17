@@ -7,7 +7,7 @@ import { useAuth, BASE_URL } from "../context/ContexProvider";
 const NoteModel = ({ setModelOpen, fetchNotes }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const { user } = useAuth(); // get logged-in user and token
+  const { user } = useAuth();
 
   const addNote = async (e) => {
     e.preventDefault();
@@ -23,25 +23,20 @@ const NoteModel = ({ setModelOpen, fetchNotes }) => {
     }
 
     try {
-      // ✅ Use the correct backend endpoint
       await axios.post(
-        `${BASE_URL}/notes`, // <-- change from /notes/add to /notes
+        `${BASE_URL}/notes`,
         { title, content },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
       toast.success("Note added successfully ✅");
-      fetchNotes(); // refresh notes
-      setModelOpen(false); // close modal
+      fetchNotes();
+      setModelOpen(false);
       setTitle("");
       setContent("");
     } catch (err) {
       console.error("Error adding note:", err.response || err);
-      toast.error(err.response?.data?.message || "Failed to add note ❌");
+      toast.error(err.response?.data?.error || "Failed to add note ❌");
     }
   };
 
