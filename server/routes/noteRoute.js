@@ -3,8 +3,8 @@ import { getNotes, addNote, deleteNote } from "../controllers/noteController.js"
 
 const router = express.Router();
 
-router.get("/notes", getNotes);
-router.post("/notes", addNote);
-router.delete("/notes/:id", deleteNote);
+router.get("/", getNotes);
+router.post("/", addNote);
+router.delete("/:id", deleteNote);
 
 export default router;
