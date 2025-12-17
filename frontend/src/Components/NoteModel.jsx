@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { BASE_URL } from "../context/ContexProvider"; // use deployed backend URL
 
 const NoteModel = ({ setModelOpen, fetchNotes }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const token = "user123"; // example token
+  const token = "user123"; // replace with actual JWT if needed
 
   const addNote = async (e) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ const NoteModel = ({ setModelOpen, fetchNotes }) => {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/notes/add",
+        `${BASE_URL}/notes/add`,
         { title, content },
         { headers: { Authorization: `Bearer ${token}` } }
       );
