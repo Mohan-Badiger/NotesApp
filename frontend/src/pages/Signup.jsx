@@ -57,7 +57,7 @@ const Signup = () => {
           required
         />
 
-        <button className="bg-orange-500 text-white w-full py-2 rounded">
+        <button className="bg-orange-500 text-white w-full py-2 rounded hover:bg-orange-300 transition">
           Signup
         </button>
 
