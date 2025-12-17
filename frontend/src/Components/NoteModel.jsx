@@ -7,7 +7,7 @@ import { useAuth, BASE_URL } from "../context/ContexProvider";
 const NoteModel = ({ setModelOpen, fetchNotes }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const { user } = useAuth(); // ✅ get real token
+  const { user } = useAuth(); // get logged-in user and token
 
   const addNote = async (e) => {
     e.preventDefault();
@@ -23,19 +23,20 @@ const NoteModel = ({ setModelOpen, fetchNotes }) => {
     }
 
     try {
+      // ✅ Use the correct backend endpoint
       await axios.post(
-        `${BASE_URL}/notes/add`,
+        `${BASE_URL}/notes`, // <-- change from /notes/add to /notes
         { title, content },
         {
           headers: {
-            Authorization: `Bearer ${user.token}`, // ✅ real token
+            Authorization: `Bearer ${user.token}`,
           },
         }
       );
 
       toast.success("Note added successfully ✅");
-      fetchNotes();
-      setModelOpen(false);
+      fetchNotes(); // refresh notes
+      setModelOpen(false); // close modal
       setTitle("");
       setContent("");
     } catch (err) {
