@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 
-export const BASE_URL = "https://notesapp-backend-wloz.onrender.com";
+export const BASE_URL = "https://notesapp-backend-wloz.onrender.com/api";
 
 // Create Context
 const AuthContext = createContext();
