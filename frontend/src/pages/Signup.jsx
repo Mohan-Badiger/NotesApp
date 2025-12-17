@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { BASE_URL } from "../context/ContexProvider"; // import BASE_URL
 
 function Signup() {
   const [name, setName] = useState("");
@@ -14,7 +15,7 @@ function Signup() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
+      const res = await axios.post(`${BASE_URL}/auth/register`, {
         name,
         email,
         password,
@@ -63,7 +64,7 @@ function Signup() {
           required
         />
 
-        <button className="bg-orange-500 text-white w-full py-2 rounded text-sm sm:text-base  hover:bg-orange-300 transition">
+        <button className="bg-orange-500 text-white w-full py-2 rounded text-sm sm:text-base hover:bg-orange-300 transition">
           Signup
         </button>
 
