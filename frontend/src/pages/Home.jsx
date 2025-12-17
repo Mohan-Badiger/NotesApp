@@ -1,54 +1,43 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import NoteModel from "../Components/NoteModel";
-import NoteCard from "../Components/NoteCard";
 import { useAuth, BASE_URL } from "../context/ContexProvider";
+import NoteModel from "../Components/NoteModel";
 import { toast } from "react-toastify";
 
-const Home = ({ searchQuery }) => {
-  const [notes, setNotes] = useState([]);
-  const [isModelOpen, setModelOpen] = useState(false);
+const Home = () => {
   const { user } = useAuth();
+  const [notes, setNotes] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const fetchNotes = async () => {
     if (!user?.token) return;
-    try {
-      const res = await axios.get(`${BASE_URL}/notes`, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-      setNotes(res.data);
-    } catch {
-      toast.error("Failed to fetch notes ❌");
-    }
+    const res = await axios.get(`${BASE_URL}/notes`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    setNotes(res.data);
   };
 
-  useEffect(() => {
-    fetchNotes();
-  }, [user]);
+  useEffect(() => { fetchNotes(); }, [user]);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold text-center mb-6">Your Notes</h1>
+    <div className="p-4 min-h-screen bg-gray-100">
+      <h1 className="text-2xl font-bold text-center mb-4">My Notes</h1>
 
       <button
-        onClick={() => user ? setModelOpen(true) : toast.error("Login first ❌")}
-        className="fixed bottom-6 right-6 bg-teal-600 text-white p-4 rounded-full text-3xl"
-      >
+        onClick={() => user ? setOpen(true) : toast.error("Login first")}
+        className="fixed bottom-6 right-6 bg-teal-600 text-white p-4 rounded-full text-3xl">
         +
       </button>
 
-      {isModelOpen && (
-        <NoteModel setModelOpen={setModelOpen} fetchNotes={fetchNotes} />
-      )}
+      {open && <NoteModel setModelOpen={setOpen} fetchNotes={fetchNotes} />}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {notes
-          .filter(n =>
-            n.title.toLowerCase().includes(searchQuery?.toLowerCase() || "")
-          )
-          .map(note => (
-            <NoteCard key={note._id} note={note} fetchNotes={fetchNotes} />
-          ))}
+        {notes.map(n => (
+          <div key={n._id} className="bg-white p-4 rounded shadow">
+            <h3 className="font-bold">{n.title}</h3>
+            <p className="text-sm">{n.content}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
