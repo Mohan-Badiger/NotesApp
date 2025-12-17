@@ -1,23 +1,39 @@
 import React, { createContext, useContext, useState } from "react";
 
+export const BASE_URL = "https://notesapp-backend-wloz.onrender.com";
+
+// Create Context
 const AuthContext = createContext();
 
+// Provider
 export const ContexProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
+  // Login function
   const login = (userData) => {
-    setUser(userData);  // IMPORTANT
+    setUser(userData);
   };
 
+  // Logout function
   const logout = () => {
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        login,
+        logout,
+        BASE_URL,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+// Custom Hook
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
