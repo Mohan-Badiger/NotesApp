@@ -2,49 +2,50 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NoteModel from "../Components/NoteModel";
 import NoteCard from "../Components/NoteCard";
-import { useAuth, BASE_URL } from "../context/ContexProvider"; // import BASE_URL
+import { useAuth, BASE_URL } from "../context/ContexProvider";
 import { toast } from "react-toastify";
 
 const Home = ({ searchQuery }) => {
   const [notes, setNotes] = useState([]);
   const [isModelOpen, setModelOpen] = useState(false);
-  const { user } = useAuth();
-  const token = "user123"; // you can replace this with actual JWT if needed
+  const { user } = useAuth(); // ✅ get real logged-in user
 
   // Fetch notes
   const fetchNotes = async () => {
+    if (!user?.token) return; // no token → no fetch
+
     try {
       const res = await axios.get(`${BASE_URL}/notes`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${user.token}` }, // ✅ use real JWT
       });
       setNotes(res.data);
     } catch (err) {
-      console.error(err);
-      toast.error("Failed to fetch notes");
+      console.error(err.response || err);
+      toast.error("Failed to fetch notes ❌");
     }
   };
 
   // Delete note
   const deleteNote = async (id) => {
-    if (!user) {
-      toast.error("Login first");
+    if (!user?.token) {
+      toast.error("Login first ❌");
       return;
     }
     try {
       await axios.delete(`${BASE_URL}/notes/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${user.token}` },
       });
       setNotes(notes.filter((note) => note._id !== id));
-      toast.success("Note deleted");
+      toast.success("Note deleted ✅");
     } catch (err) {
-      console.error(err);
-      toast.error("Failed to delete note");
+      console.error(err.response || err);
+      toast.error("Failed to delete note ❌");
     }
   };
 
   useEffect(() => {
     fetchNotes();
-  }, []);
+  }, [user]); // fetch again if user changes
 
   // Filter notes based on search query
   const filteredNotes = notes.filter(
@@ -62,7 +63,7 @@ const Home = ({ searchQuery }) => {
       <button
         onClick={() => {
           if (!user) {
-            toast.error("Login first next add new note");
+            toast.error("Login first to add a new note ❌");
             return;
           }
           setModelOpen(true);
