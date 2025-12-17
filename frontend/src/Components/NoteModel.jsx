@@ -11,72 +11,52 @@ const NoteModel = ({ setModelOpen, fetchNotes }) => {
 
   const addNote = async (e) => {
     e.preventDefault();
-
-    if (!title || !content) {
-      toast.error("Title and content are required ❌");
-      return;
-    }
-
-    if (!user?.token) {
-      toast.error("Login first to add note ❌");
-      return;
-    }
-
     try {
       await axios.post(
         `${BASE_URL}/notes`,
         { title, content },
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        {
+          headers: { Authorization: `Bearer ${user.token}` },
+        }
       );
 
-      toast.success("Note added successfully ✅");
+      toast.success("Note added ✅");
       fetchNotes();
       setModelOpen(false);
-      setTitle("");
-      setContent("");
-    } catch (err) {
-      console.error("Error adding note:", err.response || err);
-      toast.error(err.response?.data?.error || "Failed to add note ❌");
+    } catch {
+      toast.error("Failed to add note ❌");
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
-      <form
-        className="bg-white rounded shadow-md w-11/12 sm:w-96 p-4 sm:p-6"
-        onSubmit={addNote}
-      >
-        <h2 className="text-lg sm:text-xl font-bold mb-4 text-center sm:text-left">
-          Add Note
-        </h2>
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center">
+      <form onSubmit={addNote} className="bg-white p-6 rounded w-96">
+        <h2 className="text-xl font-bold mb-4">Add Note</h2>
 
         <input
-          type="text"
           placeholder="Title"
-          className="border p-2 w-full mb-3 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
+          className="border w-full p-2 mb-3 rounded"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          required
         />
 
         <textarea
           placeholder="Content"
-          className="border p-2 w-full mb-3 rounded h-32 resize-none focus:outline-none focus:ring-2 focus:ring-teal-500"
+          className="border w-full p-2 mb-4 rounded"
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          required
         />
 
-        <div className="flex flex-col sm:flex-row justify-end gap-2">
-          <button
-            type="submit"
-            className="bg-teal-600 text-white px-4 py-2 rounded w-full sm:w-auto hover:bg-teal-500 transition"
-          >
+        <div className="flex gap-2 justify-end">
+          <button className="bg-teal-600 text-white px-4 py-2 rounded">
             Add
           </button>
-
           <button
             type="button"
             onClick={() => setModelOpen(false)}
-            className="bg-gray-400 text-white px-4 py-2 rounded w-full sm:w-auto hover:bg-gray-500 transition"
+            className="bg-gray-400 text-white px-4 py-2 rounded"
           >
             Cancel
           </button>
