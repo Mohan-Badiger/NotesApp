@@ -38,7 +38,7 @@ const Home = ({ searchQuery }) => {
       });
 
       setNotes((prev) => prev.filter((note) => note._id !== id));
-      toast.success();
+      toast.success("Note deleted");
     } catch (error) {
       console.error(error);
       toast.error("Failed to delete note");
@@ -57,8 +57,8 @@ const Home = ({ searchQuery }) => {
   );
 
   return (
-    <div className="bg-gray-100 min-h-screen p-3 sm:p-4">
-      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">
+    <div className="min-h-[90vh] bg-[#0f172a] px-4 py-6 text-gray-100">
+      <h1 className="text-2xl sm:text-3xl font-semibold text-center mb-8 tracking-wide">
         Your Notes
       </h1>
 
@@ -71,7 +71,9 @@ const Home = ({ searchQuery }) => {
           }
           setModelOpen(true);
         }}
-        className="fixed bottom-6 right-6 bg-teal-600 text-white text-4xl w-14 h-14 rounded-full shadow-lg hover:bg-teal-500 transition"
+        className="fixed bottom-6 right-6 bg-teal-600 text-white text-3xl
+        w-14 h-14 rounded-full shadow-lg hover:bg-teal-500 transition"
+        aria-label="Add Note"
       >
         +
       </button>
@@ -86,11 +88,11 @@ const Home = ({ searchQuery }) => {
 
       {/* NOTES GRID */}
       {filteredNotes.length === 0 ? (
-        <p className="text-center text-gray-500 mt-10">
+        <p className="text-center text-gray-400 mt-16">
           No notes found
         </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {filteredNotes.map((note) => (
             <NoteCard
               key={note._id}

@@ -22,18 +22,25 @@ const Signup = () => {
       toast.success("Signup successful ✅");
       navigate("/login");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Signup failed ❌");
+      toast.error(err?.response?.data?.message || "Signup failed ❌");
     }
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-start p-10 bg-gray-200">
-      <form onSubmit={handleSignup} className="bg-white p-6 rounded shadow w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-4 text-center">Signup</h2>
+    <div className="min-h-[90vh] flex items-center justify-center bg-[#0f172a] overflow-hidden">
+      <form
+        onSubmit={handleSignup}
+        className="bg-[#111827] border border-gray-700 p-6 rounded-md shadow-lg w-full max-w-sm text-gray-100"
+      >
+        <h2 className="text-2xl font-semibold mb-5 text-center tracking-wide">
+          Signup
+        </h2>
 
         <input
+          type="text"
           placeholder="Name"
-          className="border w-full p-2 mb-3 rounded"
+          className="w-full mb-3 px-3 py-2 rounded-sm bg-[#1f2937] border border-gray-600
+          text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
@@ -42,7 +49,8 @@ const Signup = () => {
         <input
           type="email"
           placeholder="Email"
-          className="border w-full p-2 mb-3 rounded"
+          className="w-full mb-3 px-3 py-2 rounded-sm bg-[#1f2937] border border-gray-600
+          text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -51,18 +59,29 @@ const Signup = () => {
         <input
           type="password"
           placeholder="Password"
-          className="border w-full p-2 mb-4 rounded"
+          className="w-full mb-4 px-3 py-2 rounded-sm bg-[#1f2937] border border-gray-600
+          text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
 
-        <button className="bg-orange-500 text-white w-full py-2 rounded hover:bg-orange-300 transition">
+        <button
+          type="submit"
+          className="w-full bg-teal-600 hover:bg-teal-500 transition
+          text-white py-2 rounded-md font-medium tracking-wide"
+        >
           Signup
         </button>
 
-        <p className="text-center mt-3">
-          Already have an account? <Link to="/login" className="text-blue-600">Login</Link>
+        <p className="text-center mt-4 text-sm text-gray-400">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="text-teal-400 hover:text-teal-300 font-medium"
+          >
+            Login
+          </Link>
         </p>
       </form>
     </div>

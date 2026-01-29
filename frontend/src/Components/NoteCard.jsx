@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuth } from "../context/ContexProvider";
 import { toast } from "react-toastify";
+import { FiTrash2, FiClock } from "react-icons/fi";
 
 const NoteCard = ({ note, deleteNote }) => {
   const { user } = useAuth();
@@ -26,34 +27,44 @@ const NoteCard = ({ note, deleteNote }) => {
   };
 
   return (
-    <div className="bg-white p-4 sm:p-5 rounded-lg shadow-md border border-gray-200 flex flex-col justify-between transition hover:shadow-lg">
-      
-      {/* Note title */}
-      <h2 className="font-semibold text-teal-700 text-base sm:text-lg truncate">
+    <div
+      className="bg-[#111827] border border-gray-700 p-4 sm:p-5
+      rounded-md shadow-md flex flex-col justify-between
+      hover:shadow-lg transition"
+    >
+      {/* TITLE */}
+      <h2 className="font-semibold text-teal-400 text-base sm:text-lg truncate">
         {note.title}
       </h2>
 
-      <hr className="my-2 border-gray-300" />
+      <div className="my-2 border-t border-gray-700" />
 
-      {/* Note content */}
-      <p className="text-gray-700 text-sm sm:text-base leading-relaxed truncate">
+      {/* CONTENT */}
+      <p className="text-gray-300 text-sm sm:text-base leading-relaxed line-clamp-3">
         {note.content}
       </p>
 
-      {/* Created date */}
-      <p className="text-gray-400 text-xs sm:text-sm mt-2 text-right">
-        {new Date(note.createdAt).toLocaleString()}
-      </p>
+      {/* FOOTER */}
+      <div className="mt-4 flex items-center justify-between">
+        {/* DATE */}
+        <div className="flex items-center gap-1 text-gray-400 text-xs sm:text-sm">
+          <FiClock size={14} />
+          <span>{new Date(note.createdAt).toLocaleString()}</span>
+        </div>
 
-      {/* Delete button */}
-      {deleteNote && (
-        <button
-          onClick={handleDelete}
-          className="mt-3 bg-red-500 text-white text-xs sm:text-sm px-3 py-1 sm:px-4 sm:py-2 rounded hover:bg-red-600 transition self-start"
-        >
-          Delete
-        </button>
-      )}
+        {/* DELETE BUTTON */}
+        {deleteNote && (
+          <button
+            onClick={handleDelete}
+            className="flex items-center gap-1
+            bg-red-600 hover:bg-red-500 transition
+            text-white text-xs sm:text-sm px-3 py-1.5 rounded-sm"
+          >
+            <FiTrash2 size={14} />
+            Delete
+          </button>
+        )}
+      </div>
     </div>
   );
 };
