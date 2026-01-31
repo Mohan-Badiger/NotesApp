@@ -1,5 +1,6 @@
 This is a simple and responsive Notes Application built using the MERN stack (MongoDB, Express.js, React, and Node.js) with Tailwind CSS, where users can securely create, search, and delete notes with authentication and a clean, user-friendly interface.
 
+here are screenshot of the project
 
 <img width="1342" height="638" alt="Image" src="https://github.com/user-attachments/assets/acf7c990-ac82-4f57-a63a-bf2c70df8201" />
 
